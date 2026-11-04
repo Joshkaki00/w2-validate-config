@@ -1,20 +1,20 @@
-def is_valid(s):
+def is_valid(config):
     """Return True if every (), [], {} is properly matched and nested."""
-    pairs = {")": "(", "]": "[", "}": "{"}
-    stack = []
+    matching_opener = {")": "(", "]": "[", "}": "{"}
+    unmatched_openers = []
 
-    for ch in s:
-        if ch in pairs.values():  # opening: (, [, {
-            stack.append(ch)
-        elif ch in pairs:  # closing: ), ], }
-            if not stack or stack[-1] != pairs[ch]:
+    for symbol in config:
+        if symbol in matching_opener.values():  # opening: (, [, {
+            unmatched_openers.append(symbol)
+        elif symbol in matching_opener:  # closing: ), ], }
+            if not unmatched_openers or unmatched_openers[-1] != matching_opener[symbol]:
                 return False
-            stack.pop()
+            unmatched_openers.pop()
         else:
             # ignore anything that isn't a grouping symbol (optional)
             continue
 
-    return not stack
+    return not unmatched_openers
 
 
 if __name__ == "__main__":
